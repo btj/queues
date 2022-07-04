@@ -1,20 +1,21 @@
 package queues;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 
 public class SimpleQueue extends Queue {
 	
 	/**
 	 * @invar | elements != null
-	 * @invar | Arrays.stream(elements).allMatch(e -> e != null)
+	 * @invar | elements.stream().allMatch(e -> e != null)
 	 * 
 	 * @representationObject
 	 */
-	private Object[] elements = new Object[0];
+	private LinkedList<Object> elements = new LinkedList<>();
 	
-	public int size() { return elements.length; }
+	public int size() { return elements.size(); }
 	
-	public Object[] toArray() { return elements.clone(); }
+	public Object[] toArray() { return elements.toArray(); }
 	
 	/**
 	 * @post | size() == 0
@@ -25,20 +26,11 @@ public class SimpleQueue extends Queue {
 		if (element == null)
 			throw new IllegalArgumentException("`element` is null");
 		
-		Object[] newElements = new Object[elements.length + 1];
-		for (int i = 0; i < elements.length; i++)
-			newElements[i] = elements[i];
-		newElements[elements.length] = element;
-		elements = newElements;
+		elements.add(element);
 	}
 	
 	public Object dequeue() {
-		Object result = elements[0];
-		Object[] newElements = new Object[elements.length - 1];
-		for (int i = 0; i < newElements.length; i++)
-			newElements[i] = elements[i + 1];
-		elements = newElements;
-		return result;
+		return elements.removeFirst();
 	}
 
 }
